@@ -111,7 +111,11 @@ task dockerfileCreate(type: Dockerfile) {
     maintainer 'Jan Gasperlin "jg1724@student.uni-lj.si"'
     environmentVariable("PORT", port)
     environmentVariable("JAR", buildKumuluzEE.archiveName)
-    environmentVariable('DB_NAME', 'rsobook-user_friends')
+    environmentVariable("DB_NAME", 'rsobook-user_friends')
+    environmentVariable("DB_HOST", 'rsobook-microservice-database')
+    environmentVariable("DB_PORT", '5432')
+    environmentVariable("DB_USERNAME", 'postgres')
+    environmentVariable("DB_PASSWORD", 'root')
     exposePort {
         port
     }
@@ -185,6 +189,7 @@ task containerCreate(type: DockerCreateContainer) {
     containerName = dockerContainerName
     portBindings = [String.format("%s:%s", port, port)]
     hostName = dockerHostname
+    network = 'rsonetwork'
 }
 
 task containerStart(type: DockerStartContainer) {
@@ -192,6 +197,13 @@ task containerStart(type: DockerStartContainer) {
     targetContainerId {
         dockerContainerName
     }
+}
+
+task dockerBootstrap() {
+    group 'docker'
+    dependsOn containerCreate
+    dependsOn containerStart
+    containerCreate.finalizedBy containerStart
 }
 
 
