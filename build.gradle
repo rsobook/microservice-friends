@@ -175,7 +175,6 @@ task imageBuild(type: DockerBuildImage) {
 
 task imagePushToDockerHub(type: DockerPushImage){
     group 'docker'
-    dependsOn imageBuild
     imageName = dockerImageTag
     tag = version
 }
