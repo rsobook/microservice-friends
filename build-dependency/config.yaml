@@ -1,0 +1,7 @@
+kumuluzee:
+  datasources:
+    - jndi-name: jdbc/RsobookDS
+      connection-url: jdbc:postgresql://DB_HOST_ADDRESS:DB_HOST_PORT/DB_NAME
+      username: DB_USERNAME
+      password: DB_PASSWORD
+      max-pool-size: 10

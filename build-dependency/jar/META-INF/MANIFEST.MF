@@ -1,0 +1,6 @@
+Manifest-Version: 1.0
+Built-By: Targma
+Created-By: Apache Maven 3.3.3
+Build-Jdk: 1.8.0_111
+Main-Class: com.kumuluz.ee.loader.EeBootLoader
+
