@@ -1,6 +1,7 @@
 package si.fri.rsobook.rest;
 
-import si.fri.rsobook.config.ApiConfig;
+import com.kumuluz.ee.discovery.annotations.DiscoverService;
+import si.fri.rsobook.config.FriendsConfigProperties;
 import si.fri.rsobook.core.api.ApiConfiguration;
 import si.fri.rsobook.core.api.ApiCore;
 import si.fri.rsobook.core.api.client.utility.QueryParamBuilder;
@@ -14,13 +15,14 @@ import si.fri.rsobook.core.database.impl.DatabaseImpl;
 import si.fri.rsobook.core.model.User;
 import si.fri.rsobook.core.model.UserFriends;
 import si.fri.rsobook.core.restComponenets.resource.CrudResource;
-import si.fri.rsobook.rest.service.DatabaseService;
+import si.fri.rsobook.service.DatabaseService;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +31,13 @@ import java.util.UUID;
 @RequestScoped
 @Path("Friends")
 public class FriendsResource extends CrudResource<UUID, UserFriends> {
+
+    @Inject
+    @DiscoverService(value = "microservice-user", version = "1.0.x", environment = "dev")
+    private WebTarget target;
+
+    @Inject
+    private FriendsConfigProperties friendsConfigProperties;
 
     @Inject
     private DatabaseService databaseService;
@@ -93,9 +102,13 @@ public class FriendsResource extends CrudResource<UUID, UserFriends> {
         QueryParamBuilder queryParamBuilder = new QueryParamBuilder();
         queryParamBuilder.addCond("id:in:" + sb.toString());
 
+        String host = friendsConfigProperties.getUserApiHost();
+        if(target != null) {
+            host = target.getUri().toString();
+        }
 
         ApiConfiguration config = new ApiConfiguration(String.format(
-                "http://%s/api/v1", ApiConfig.API_USER_HOST));
+                "%s/api/v1", host));
 
         ApiCore apiCore = new ApiCore(config, null);
         CrudApiResource<User> resource = new CrudApiResource<>(apiCore, User.class);

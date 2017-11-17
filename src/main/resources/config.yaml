@@ -1,7 +1,74 @@
 kumuluzee:
+  name: microservice-friends
+  env:
+    name: dev
+  version: 1.0.0
+  server:
+      base-url:
+      http:
+        port:
   datasources:
     - jndi-name: jdbc/RsobookDS
       connection-url: jdbc:postgresql://localhost:55432/rsobook-user_friends
       username: postgres
       password: root
       max-pool-size: 10
+  config:
+      etcd:
+        hosts: http://localhost:52379
+  discovery:
+    etcd:
+      hosts: http://localhost:52379
+    ttl: 20
+    ping-interval: 15
+  cors-filter:
+    servlet:
+      allow-origin: "*"
+  health:
+    servlet:
+      mapping: /health
+      enabled: true
+    logs:
+      enabled: false
+      level: INFO
+      period-s: 30
+    checks:
+      data-source-health-check:
+        jndi-name: jdbc/RsobookDS
+      disk-space-health-check:
+        threshold: 100000000
+  metrics:
+    generic-registry-name: default
+    #enabled-registries: [default]
+    jvm:
+      enabled: true
+      registry-name: jvm
+    servlet:
+      enabled: true
+      mapping: /metrics
+    #graphite:
+      #address: 192.168.29.181
+      #port: 2003
+      #period-s: 15
+      #pickle: true
+    #logstash:
+      #address: 192.168.29.181
+      #port: 5043
+      #period-s: 15
+    #prometheus:
+      #mapping: /prometheus
+    logs:
+      enabled: false
+      period-s: 30
+      level: INFO
+    web-instrumentation:
+      #- name: metrics-endpoint
+        #url-pattern: /metrics/*
+        #registry-name: default
+      #- name: prometheus-endpoint
+        #url-pattern: /prometheus/*
+      - name: user-endpoint
+        url-pattern: /api/v1/Friends/*
+
+properties:
+  user-api-host: http://localhost:5001
