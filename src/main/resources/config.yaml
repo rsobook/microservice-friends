@@ -67,7 +67,7 @@ kumuluzee:
         #registry-name: default
       #- name: prometheus-endpoint
         #url-pattern: /prometheus/*
-      - name: user-endpoint
+      - name: friends-endpoint
         url-pattern: /api/v1/Friends/*
 
 properties:
