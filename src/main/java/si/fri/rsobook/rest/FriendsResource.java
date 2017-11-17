@@ -33,7 +33,7 @@ import java.util.UUID;
 public class FriendsResource extends CrudResource<UUID, UserFriends> {
 
     @Inject
-    @DiscoverService(value = "microservice-user", version = "1.0.x", environment = "dev")
+    @DiscoverService(value = "ms.user", version = "1.0.x", environment = "dev")
     private WebTarget target;
 
     @Inject

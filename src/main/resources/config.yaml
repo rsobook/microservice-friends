@@ -1,5 +1,5 @@
 kumuluzee:
-  name: microservice-friends
+  name: ms.friends
   env:
     name: dev
   version: 1.0.0
