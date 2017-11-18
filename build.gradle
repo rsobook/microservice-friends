@@ -124,7 +124,7 @@ task dockerfileCreate(type: Dockerfile) {
 
     environmentVariable("PORT", port)
 
-    environmentVariable("KUMULUZEE_DATASOURCES0_CONNECTIONURL", 'jdbc:postgresql://ms.database:5432/rsobook-user_friends')
+    environmentVariable("KUMULUZEE_DATASOURCES0_CONNECTIONURL", 'jdbc:postgresql://ms-database:5432/rsobook-user_friends')
     environmentVariable("KUMULUZEE_DATASOURCES0_USERNAME", 'postgres')
     environmentVariable("KUMULUZEE_DATASOURCES0_PASSWORD", 'root')
 

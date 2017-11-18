@@ -23,6 +23,8 @@ spec:
               value: http://ms-user
             - name: PROPERTIES_USERAPIHOSTDISCOVERY
               value: false
+            - name: KUMULUZEE_DATASOURCES0_CONNECTIONURL
+              value: jdbc:postgresql://ms-database:5432/rsobook-user_friends
           ports:
           - containerPort: 80
             protocol: TCP
