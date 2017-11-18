@@ -9,7 +9,7 @@ buildscript {
 }
 
 group 'si.fri.rsobook'
-version '1.0'
+version '1.0.0'
 
 apply plugin: 'java'
 apply plugin: 'idea'
@@ -128,10 +128,10 @@ task dockerfileCreate(type: Dockerfile) {
     environmentVariable("KUMULUZEE_DATASOURCES0_USERNAME", 'postgres')
     environmentVariable("KUMULUZEE_DATASOURCES0_PASSWORD", 'root')
 
-    environmentVariable("KUMULUZEE_CONFIG_ETCD_HOSTS", 'http://ms.etcd:2379')
-    environmentVariable("KUMULUZEE_DISCOVERY_ETCD_HOSTS", 'http://ms.etcd:2379')
+    environmentVariable("KUMULUZEE_CONFIG_ETCD_HOSTS", 'http://ms-etcd:2379')
+    environmentVariable("KUMULUZEE_DISCOVERY_ETCD_HOSTS", 'http://ms-etcd:2379')
 
-    environmentVariable("PROPERTIES_USERAPIHOST", 'http://ms.user')
+    environmentVariable("PROPERTIES_USERAPIHOST", 'http://ms-user')
 
     exposePort {
         port
@@ -202,7 +202,7 @@ task containerCreate(type: DockerCreateContainer) {
         dockerImageTag
     }
     containerName = dockerContainerName
-    portBindings = [String.format("%s:%s", port, port)]
+    portBindings = [String.format("5%s:%s", port, port)]
     hostName = dockerHostname
     network = 'rsonetwork'
 }

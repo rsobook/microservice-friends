@@ -1,0 +1,26 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: ms-friends
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ms-friends
+    spec:
+      containers:
+        - image: rsobook/ms-friends:1.0.0
+          name: ms-friends
+          env:
+            - name: PORT
+              value: '80'
+            - name: KUMULUZEE_DISCOVERY_ETCD_HOSTS
+              value: http://ms-etcd:2379
+            - name: KUMULUZEE_CONFIG_ETCD_HOSTS
+              value: http://ms-etcd:2379
+            - name: PROPERTIES_USERAPIHOST
+              value: http://ms-user
+          ports:
+          - containerPort: 80
+            protocol: TCP
