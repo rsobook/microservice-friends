@@ -10,11 +10,21 @@ public class FriendsConfigProperties {
 
     private String userApiHost;
 
+    private Boolean userApiHostDiscovery;
+
     public String getUserApiHost() {
         return userApiHost;
     }
 
     public void setUserApiHost(String userApiHost) {
         this.userApiHost = userApiHost;
+    }
+
+    public Boolean getUserApiHostDiscovery() {
+        return userApiHostDiscovery;
+    }
+
+    public void setUserApiHostDiscovery(Boolean userApiHostDiscovery) {
+        this.userApiHostDiscovery = userApiHostDiscovery;
     }
 }

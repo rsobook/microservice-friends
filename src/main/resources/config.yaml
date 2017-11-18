@@ -1,8 +1,8 @@
 kumuluzee:
-  name: ms.friends
+  name: ms-friends
   env:
     name: dev
-  version: 1.0.0
+  version: 2.0.0
   server:
       base-url:
       http:
@@ -55,3 +55,4 @@ kumuluzee:
 
 properties:
   user-api-host: http://localhost:55001
+  user-api-host-discovery: true

@@ -10,7 +10,7 @@ spec:
         app: ms-friends
     spec:
       containers:
-        - image: rsobook/ms-friends:1.0.0
+        - image: rsobook/ms-friends:2.0.0
           name: ms-friends
           env:
             - name: PORT
@@ -21,6 +21,8 @@ spec:
               value: http://ms-etcd:2379
             - name: PROPERTIES_USERAPIHOST
               value: http://ms-user
+            - name: PROPERTIES_USERAPIHOSTDISCOVERY
+              value: false
           ports:
           - containerPort: 80
             protocol: TCP

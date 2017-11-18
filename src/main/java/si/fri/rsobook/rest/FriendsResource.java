@@ -22,8 +22,8 @@ import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
-import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -33,8 +33,8 @@ import java.util.UUID;
 public class FriendsResource extends CrudResource<UUID, UserFriends> {
 
     @Inject
-    @DiscoverService(value = "ms.user", version = "1.0.x", environment = "dev")
-    private WebTarget target;
+    @DiscoverService(value = "ms-user", version = "2.0.x", environment = "dev")
+    private URL url;
 
     @Inject
     private FriendsConfigProperties friendsConfigProperties;
@@ -103,8 +103,8 @@ public class FriendsResource extends CrudResource<UUID, UserFriends> {
         queryParamBuilder.addCond("id:in:" + sb.toString());
 
         String host = friendsConfigProperties.getUserApiHost();
-        if(target != null) {
-            host = target.getUri().toString();
+        if(friendsConfigProperties.getUserApiHostDiscovery() && url != null) {
+            host = url.toString();
         }
 
         ApiConfiguration config = new ApiConfiguration(String.format(
