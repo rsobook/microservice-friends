@@ -1,6 +1,9 @@
 package si.fri.rsobook.rest;
 
 import com.kumuluz.ee.discovery.annotations.DiscoverService;
+import com.kumuluz.ee.logs.cdi.Log;
+import org.eclipse.microprofile.metrics.Counter;
+import org.eclipse.microprofile.metrics.annotation.Metric;
 import si.fri.rsobook.config.FriendsConfigProperties;
 import si.fri.rsobook.core.api.ApiConfiguration;
 import si.fri.rsobook.core.api.ApiCore;
@@ -42,16 +45,23 @@ public class FriendsResource extends CrudResource<UUID, UserFriends> {
     @Inject
     private DatabaseService databaseService;
 
+    @Inject
+    @Metric(name = "friends_resolved")
+    private Counter friendsResolvedCounter;
+
     public FriendsResource() {
         super(UserFriends.class);
     }
 
+    @Log
     @GET
     @Path("resolve/{id}")
     public Response getUserFriendsResolved(@PathParam("id") UUID id) throws ApiException {
 
         List<UUID> ids = getFriendsUUIDs(id);
         List<User> resolvedFriends = getResolvedList(ids);
+
+        friendsResolvedCounter.inc(resolvedFriends.size());
 
         return Response.ok(resolvedFriends).build();
     }

@@ -3,7 +3,7 @@ package si.fri.rsobook.health;
 import org.eclipse.microprofile.health.Health;
 import org.eclipse.microprofile.health.HealthCheck;
 import org.eclipse.microprofile.health.HealthCheckResponse;
-import si.fri.rsobook.metric.FriendsMetrics;
+import si.fri.rsobook.config.FriendsConfigProperties;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -13,12 +13,12 @@ import javax.inject.Inject;
 public class ConfigHealthCheck implements HealthCheck {
 
     @Inject
-    private FriendsMetrics friendsMetrics;
+    private FriendsConfigProperties friendsConfigProperties;
 
     @Override
     public HealthCheckResponse call() {
 
-        if(!friendsMetrics.isHealthy()) {
+        if(friendsConfigProperties.getUserApiHostDiscovery() == null) {
             return HealthCheckResponse.named(ConfigHealthCheck.class.getSimpleName()).down().build();
         }
 

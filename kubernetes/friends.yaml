@@ -13,7 +13,7 @@ spec:
         app: ms-friends
     spec:
       containers:
-        - image: rsobook/ms-friends:2.0.0
+        - image: rsobook/ms-friends:2.0.1
           name: ms-friends
           env:
             - name: PORT
@@ -31,3 +31,9 @@ spec:
           ports:
           - containerPort: 80
             protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 80
+            initialDelaySeconds: 10
+            periodSeconds: 10
