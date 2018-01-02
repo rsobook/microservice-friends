@@ -28,6 +28,9 @@ import java.util.UUID;
 public class FriendsBean {
 
     @Inject
+    private FriendsBean friendsBean;
+
+    @Inject
     private FriendsConfigProperties friendsConfigProperties;
 
     @Inject
