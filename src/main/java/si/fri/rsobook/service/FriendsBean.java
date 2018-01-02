@@ -42,7 +42,7 @@ public class FriendsBean {
 
     public List<User> getFriends(UUID id) {
         List<UUID> ids = getFriendsUUIDs(id);
-        return getResolvedList(ids);
+        return friendsBean.getResolvedList(ids);
     }
 
     public List<UUID> getFriendsUUIDs(UUID id) {
