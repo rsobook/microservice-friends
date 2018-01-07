@@ -1,6 +1,8 @@
 package si.fri.rsobook.service;
 
 import com.kumuluz.ee.discovery.annotations.DiscoverService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.eclipse.microprofile.faulttolerance.CircuitBreaker;
 import org.eclipse.microprofile.faulttolerance.Fallback;
 import org.eclipse.microprofile.faulttolerance.Timeout;
@@ -26,6 +28,8 @@ import java.util.UUID;
 
 @RequestScoped
 public class FriendsBean {
+
+    private static final Logger LOG = LogManager.getLogger("si.fri.rsobook.rest.FriendsResource");
 
     @Inject
     private FriendsBean friendsBean;
@@ -65,7 +69,7 @@ public class FriendsBean {
 
     @CircuitBreaker(requestVolumeThreshold = 1)
     @Fallback(fallbackMethod = "getResolvedListFallback")
-    @Timeout(value = 8, unit = ChronoUnit.SECONDS)
+    @Timeout(value = 3, unit = ChronoUnit.SECONDS)
     public List<User> getResolvedList(List<UUID> ids) {
 
         StringBuilder sb = new StringBuilder();
@@ -84,9 +88,9 @@ public class FriendsBean {
             host = url.toString();
         }
 
-        ApiConfiguration config = new ApiConfiguration(String.format(
-                "%s/api/v1", host));
+        LOG.info(String.format("Using discovered host: %s", host));
 
+        ApiConfiguration config = new ApiConfiguration(String.format("%s/api/v1", host));
         ApiCore apiCore = new ApiCore(config, null);
         CrudApiResource<User> resource = new CrudApiResource<>(apiCore, User.class);
 
